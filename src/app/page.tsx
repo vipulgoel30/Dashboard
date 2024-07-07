@@ -1,113 +1,116 @@
-import Image from "next/image";
+// Third party imports
+import clsx from "clsx";
+import { FaCheck } from "react-icons/fa6";
+import { IconType } from "react-icons";
+import { FaCaretRight } from "react-icons/fa";
+import { IoChatbubble } from "react-icons/io5";
 
-export default function Home() {
+// User imports
+import {
+  BtnBlue,
+  BtnGrey,
+  Flex,
+  FlexCenter,
+  Grid,
+  Heading,
+  Text,
+} from "@/components/utils";
+
+// Type defination for step data
+type StepData = {
+  title: string;
+  desc: string;
+  isCompleted: boolean;
+};
+
+// Steps data
+const stepsData: StepData[] = [
+  {
+    title: "Add leads",
+    desc: "Leads are people interested",
+    isCompleted: true,
+  },
+  {
+    title: "Create a sequence",
+    desc: "Leads are people interested",
+    isCompleted: false,
+  },
+  {
+    title: "Summarize launch",
+    desc: "Leads are people interested",
+    isCompleted: false,
+  },
+];
+
+// Step Component
+function Step({ step, title, desc, isCompleted }: { step: number } & StepData) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <Grid className="grid-cols-[minmax(35px,.5fr)_6fr] items-center gap-x-3 gap-y-1">
+      <FlexCenter
+        className={clsx(
+          "aspect-square h-8 rounded-full",
+          isCompleted ? "bg-[#17c291]" : "bg-white",
+        )}
+      >
+        {isCompleted ? (
+          <FaCheck className="text-lg text-white" />
+        ) : (
+          <span className="font-semibold text-dark-grey">{step}</span>
+        )}
+      </FlexCenter>
+      <Heading as="h3" className="text-lg font-bold">
+        {title}
+      </Heading>
+      <Text className="col-start-2">{desc}</Text>
+    </Grid>
+  );
+}
+
+// Button with Icon component
+function BtnWithIcon({ title, Icon }: { title: string; Icon: IconType }) {
+  return (
+    <BtnGrey
+      as={FlexCenter}
+      className="xsm:px-5 gap-2 rounded-full px-4 py-3 sm:px-7"
+    >
+      <Icon className="text-2xl text-sky-blue" />
+      <span className="text-dark-grey">{title}</span>
+    </BtnGrey>
+  );
+}
+
+// Dashboard Component
+export default function Dashboard() {
+  return (
+    <>
+      <div className="m-3 rounded-lg bg-[#effaff] px-4 py-6 sm:m-4 sm:px-5 md:m-6">
+        {/* Greeting */}
+        <Heading as="h2" className="mb-1 text-xl font-bold">
+          Hi Jackson, Welcome to Dashhhboard
+        </Heading>
+        <Text className="mb-8 font-medium">
+          Just few more step and ready to set Go!
+        </Text>
+
+        {/* Steps */}
+        <Grid className="gap-x-12 gap-y-6 sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
+          {stepsData.map((stepData: StepData, index: number) => (
+            <Step key={stepData.title} {...stepData} step={index + 1} />
+          ))}
+        </Grid>
       </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      {/* Buttons Group */}
+      <Flex className="mx-auto my-12 w-11/12 max-w-[36rem] flex-col items-center gap-6 sm:w-3/4 md:w-2/3">
+        <Grid className="grid-cols-[1fr_1fr] gap-4">
+          <BtnWithIcon title="Watch Demo" Icon={FaCaretRight} />
+          <BtnWithIcon title="Help Ai Chat Bot" Icon={IoChatbubble} />
+        </Grid>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+        <BtnBlue className="mx-auto rounded-full px-8 py-3 font-semibold">
+          Add leads
+        </BtnBlue>
+      </Flex>
+    </>
   );
 }
